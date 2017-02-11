@@ -11,7 +11,11 @@ let swal2Observer
  * Set type, text and actions on modal
  */
 const setParameters = (params) => {
+<<<<<<< 033877bbbddd5efc04b9ac9952f3da78e8855e74
   const modal = dom.getModal() || dom.init(params)
+=======
+  const modal = dom.getModal() || dom.init(params.target)
+>>>>>>> Implement 'target' parameter, fix #392
 
   for (let param in params) {
     if (!defaultParams.hasOwnProperty(param) && param !== 'extraParams') {
@@ -714,7 +718,10 @@ const sweetAlert = (...args) => {
 
     // Set modal min-height to disable scrolling inside the modal
     sweetAlert.recalculateHeight = dom.debounce(() => {
-      const modal = dom.getModal() || dom.init(params)
+      const modal = dom.getModal()
+      if (!modal) {
+        return
+      }
       const prevState = modal.style.display
       modal.style.minHeight = ''
       dom.show(modal)
@@ -1025,7 +1032,7 @@ sweetAlert.close = sweetAlert.closeModal = (onComplete) => {
   dom.resetPrevState()
 
   const removeModalAndResetState = () => {
-    document.body.removeChild(container)
+    container.parentNode.removeChild(container)
     dom.removeClass(document.documentElement, swalClasses.shown)
     dom.removeClass(document.body, swalClasses.shown)
     undoScrollbar()
